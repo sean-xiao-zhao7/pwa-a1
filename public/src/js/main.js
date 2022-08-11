@@ -1,33 +1,31 @@
+var box = document.querySelector(".box");
+var button = document.querySelector("button");
 
-var box = document.querySelector('.box');
-var button = document.querySelector('button');
-
-if ('serviceWorker' in navigator) {
-  navigator.serviceWorker
-    .register('/sw.js')
-    .then(function() {
-      console.log('Registered Service Worker!');
+if ("serviceWorker" in navigator) {
+    navigator.serviceWorker.register("/sw.js").then(function () {
+        console.log("Registered Service Worker!");
     });
 }
 
-button.addEventListener('click', function(event) {
-  if (box.classList.contains('visible')) {
-    box.classList.remove('visible');
-  } else {
-    box.classList.add('visible');
-  }
+button.addEventListener("click", function (event) {
+    if (box.classList.contains("visible")) {
+        box.classList.remove("visible");
+    } else {
+        box.classList.add("visible");
+    }
 });
 
-fetch('https://httpbin.org/ip')
-  .then(function(res) {
-    return res.json();
-  })
-  .then(function(data) {
-    console.log(data.origin);
-    box.style.height = (data.origin.substr(0, 2) * 5) + 'px';
-  });
+fetch("https://httpbin.org/ip")
+    .then(function (res) {
+        return res.json();
+    })
+    .then(function (data) {
+        console.log(data.origin);
+        box.style.height = data.origin.substr(0, 2) * 5 + "px";
+    });
 
 // 1) Identify the strategy we currently use in the Service Worker (for caching)
+// - network then cache
 // 2) Replace it with a "Network only" strategy => Clear Storage (in Dev Tools), reload & try using your app offline
 // 3) Replace it with a "Cache only" strategy => Clear Storage (in Dev Tools), reload & try using your app offline
 // 4) Replace it with "Network, cache fallback" strategy =>  => Clear Storage (in Dev Tools), reload & try using your app offline
